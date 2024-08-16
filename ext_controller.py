@@ -88,17 +88,38 @@ class ExtController:
                 mensagem_bytes = mensagem.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
             elif option == 'U': # Carregar bits mais significativos no Acumulador
-                self.send_data([0b01010101])
+                opcode = 0b01010101
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'l': # Carregar bits menos significativos no acumulador
-                self.send_data([0b01101100])
+                opcode = 0b01101100
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'A': # Somar N ao acumulador
-                self.send_data([0b01000001])
+                opcode = 0b01000001
+                N = int(input('Digite o valor a ser somado: '))
+                N = N << 8
+                mensagem = opcode | N
+                mensagem_bytes = mensagem.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'w': # Escrever Acumulador na posição N
-                self.send_data([0b01110111])
+                opcode = 0b01110111
+                N = int(input('Digite o endereço de memória: '))
+                N = N << 8
+                mensagem = opcode | N
+                mensagem_bytes = mensagem.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 's': # Escrever N na posição do acumulador
-                self.send_data([0b01110011])
+                opcode = 0b01110011
+                N = int(input('Digite o valor a ser escrito: '))
+                N = N << 8
+                mensagem = opcode | N
+                mensagem_bytes = mensagem.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'r': # Ler a posição do acumulador
-                self.send_data([0b01110010])
+                opcode = 0b01110010
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'T': # Setar timeout
                 self.send_data([0b01010100])
             elif option == 'P': # Setar tamanho da página de memória
@@ -110,7 +131,9 @@ class ExtController:
             elif option == 'D': # Definir endereço N de término de execução
                 self.send_data([0b01000100])
             elif option == 'd': # Definir o valor do Acumulador como endereço de término
-                self.send_data([0b01100100])
+                opcode = 0b01100100
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'help':
                 help()
             elif option == 'exit':
