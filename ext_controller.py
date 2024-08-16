@@ -121,15 +121,28 @@ class ExtController:
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
             elif option == 'T': # Setar timeout
-                self.send_data([0b01010100])
+                opcode = 0b01010100
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'P': # Setar tamanho da página de memória
-                self.send_data([0b01010000])
+                opcode = 0b01010000
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'E': # Executar testes em memória
-                self.send_data([0b01000101])
+                opcode = 0b01000101
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'p': # Obter o ID e verificar funcionamento do módulo
-                self.send_data([0b01110000])
+                opcode = 0b01110000
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'D': # Definir endereço N de término de execução
-                self.send_data([0b01000100])
+                opcode = 0b01000100
+                N = int(input('Digite o endereço de término: '))
+                N = N << 8
+                mensagem = opcode | N
+                mensagem_bytes = mensagem.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
             elif option == 'd': # Definir o valor do Acumulador como endereço de término
                 opcode = 0b01100100
                 mensagem_bytes = opcode.to_bytes(4, 'big')
