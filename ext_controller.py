@@ -43,12 +43,18 @@ class ExtController:
 
     def send_data(self, data):
         self.ser.write(data)
-        return self.ser.read(1)
+
+    def read_data(self):
+        x = self.ser.read(4)
+        print("Bytes de x:")
+        for byte in x:
+            print(f"{byte:02x}", end='')
+        print()
     
     def close(self):
         self.ser.close()
 
-    def run(self, data):
+    def run(self):
         while True:
             option = input('Digite o comando: ')
             if option == 'C': # Enviar N pulsos de CLK
@@ -77,6 +83,7 @@ class ExtController:
                 N = N << 8
                 mensagem = opcode | N
                 mensagem_bytes = mensagem.to_bytes(4, 'big')
+                print(mensagem_bytes)
                 self.send_data(mensagem_bytes)
                 Y_bytes = Y.to_bytes(4, 'big')
                 self.send_data(Y_bytes)
@@ -147,20 +154,16 @@ class ExtController:
                 opcode = 0b01100100
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
-            elif option == 'help':
-                help()
             elif option == 'exit':
                 break
+            self.read_data()
+            self.read_data()
         self.close()
 
-def help():
-    help_text = open('help.txt', 'r')
-    print(help_text.read())
-    help_text.close()
-
 def main():
-    help()
-    #controller = ExtController()
+    controller = ExtController("/dev/ttyUSB1", 115200, 1)
+    controller.run()
     return 0
 
-main()
+if __name__ == "__main__":
+    main()
