@@ -33,6 +33,12 @@ Obter o ID e verificar funcionamento do módulo  | 01110000  | p            |   
 Definir endereço N de término de execução       | 01000100  | D            |          |
 Definir o valor do Acumulador como              | 01100100  | d            |          |
 endereço de término                             |           |              |          |
+Escrever N posições a partir do acumulador      | 01100101  | e            |          |
+Ler N posições a partir do acumulador           | 01100010  | b            |          |
+Obter o valor do Acumulador                     | 01100001  | a            |          |
+Alterar prioridade de acesso a memória para o   | 01001111  | O            |          |
+core                                            |           |              |          |
+Executar até o ponto de parada                  | 01110101  | u            |          |
 '''
 import serial
 
@@ -139,6 +145,7 @@ class ExtController:
                 opcode = 0b01000101
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
+                self.read_data() # Confirmar se os testes foram realizados
             elif option == 'p': # Obter o ID e verificar funcionamento do módulo
                 opcode = 0b01110000
                 mensagem_bytes = opcode.to_bytes(4, 'big')
@@ -154,6 +161,40 @@ class ExtController:
                 opcode = 0b01100100
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
+            elif option == 'e': # Escrever N posições a partir do acumulador
+                opcode = 0b01100101
+                N = n = int(input('Digite o número de posições a serem escritas: '))
+                N = N << 8
+                mensagem = opcode | N
+                mensagem_bytes = mensagem.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
+                for i in range(n):
+                    Y = int(input(f'Digite o valor da posição {i}: '))
+                    Y_bytes = Y.to_bytes(4, 'big')
+                    self.send_data(Y_bytes)
+            elif option == 'b': # Ler N posições a partir do acumulador
+                opcode = 0b01100010
+                N = n = int(input('Digite o número de posições a serem lidas: '))
+                N = N << 8
+                mensagem = opcode | N
+                mensagem_bytes = mensagem.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
+                for i in range(n):
+                    self.read_data()
+            elif option == 'a': # Obter o valor do Acumulador
+                opcode = 0b01100001
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
+                self.read_data()
+            elif option == 'O': # Alterar prioridade de acesso a memória para o core
+                opcode = 0b01001111
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
+            elif option == 'u': # Executar até o ponto de parada
+                opcode = 0b01110101
+                mensagem_bytes = opcode.to_bytes(4, 'big')
+                self.send_data(mensagem_bytes)
+                self.read_data() # Confirmar se a execução foi até o ponto de parada
             elif option == 'exit':
                 break
             self.read_data()
