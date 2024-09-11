@@ -56,6 +56,7 @@ class ExtController:
         for byte in x:
             print(f"{byte:02x}", end='')
         print()
+        return x
     
     def close(self):
         self.ser.close()
@@ -100,6 +101,7 @@ class ExtController:
                 mensagem = opcode | N
                 mensagem_bytes = mensagem.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
+                self.read_data() # Lé o valor da posição de memória
             elif option == 'U': # Carregar bits mais significativos no Acumulador
                 opcode = 0b01010101
                 mensagem_bytes = opcode.to_bytes(4, 'big')
@@ -133,23 +135,38 @@ class ExtController:
                 opcode = 0b01110010
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
-            elif option == 'T': # Setar timeout
+                self.read_data() # Lé o valor da posição do acumulador
+            elif option == 'T': # Definir timeout em ciclos de CLK   (Perguntar para Julio)
                 opcode = 0b01010100
+                N = int(input('Digite o valor do timeout em ciclos de CLK: '))
+                N = N << 8
+                mensagem = opcode | N
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
-            elif option == 'P': # Setar tamanho da página de memória
+            elif option == 'P': # Setar tamanho da página de memória (Perguntar para Julio)
                 opcode = 0b01010000
+                N = int(input('Digite o tamanho da página de memória: '))
+                N = N << 8
+                mensagem = opcode | N
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
             elif option == 'E': # Executar testes em memória
                 opcode = 0b01000101
+                N = int(input('Digite o número de paginas a serem utilizadas: '))
+                N = N << 8
+                mensagem = opcode | N
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
-                self.read_data() # Confirmar se os testes foram realizados
+                result = self.read_data() # Confirmar se os testes foram realizados
+                if result == 0x676F6F64:
+                    print('Testes realizados com sucesso')
+                else:
+                    print('Erro ao realizar testes')
             elif option == 'p': # Obter o ID e verificar funcionamento do módulo
                 opcode = 0b01110000
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
+                result = self.read_data() # Contem informação da FPGA utilizada, a indentificação da infroestrutura e etc
             elif option == 'D': # Definir endereço N de término de execução
                 opcode = 0b01000100
                 N = int(input('Digite o endereço de término: '))
@@ -169,7 +186,7 @@ class ExtController:
                 mensagem_bytes = mensagem.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
                 for i in range(n):
-                    Y = int(input(f'Digite o valor da posição {i}: '))
+                    Y = int(input(f'Digite o informação para posição {i}: '))
                     Y_bytes = Y.to_bytes(4, 'big')
                     self.send_data(Y_bytes)
             elif option == 'b': # Ler N posições a partir do acumulador
@@ -179,13 +196,15 @@ class ExtController:
                 mensagem = opcode | N
                 mensagem_bytes = mensagem.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
+                data = []
                 for i in range(n):
-                    self.read_data()
+                    data_line = self.read_data()
+                    data.append(data_line)
             elif option == 'a': # Obter o valor do Acumulador
                 opcode = 0b01100001
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
-                self.read_data()
+                acumulador = self.read_data()
             elif option == 'O': # Alterar prioridade de acesso a memória para o core
                 opcode = 0b01001111
                 mensagem_bytes = opcode.to_bytes(4, 'big')
@@ -194,7 +213,12 @@ class ExtController:
                 opcode = 0b01110101
                 mensagem_bytes = opcode.to_bytes(4, 'big')
                 self.send_data(mensagem_bytes)
-                self.read_data() # Confirmar se a execução foi até o ponto de parada
+                result = self.read_data() # Confirmar se a execução foi até o ponto de parada
+                if result == 0x6C75636B:
+                    print('Execução até o ponto de parada')
+                else:
+                    print('Erro ao executar até o ponto de parada')
+                informacao = self.read_data()
             elif option == 'exit':
                 break
             self.read_data()
