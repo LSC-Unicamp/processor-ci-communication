@@ -63,7 +63,7 @@ class ExtController:
     def close(self):
         self.ser.close()
 
-    def load_program(self, program):
+    def load_program(self, program:str):
         file = open(program, 'r')
         num_lines = sum(1 for _ in file)
         file.seek(0)
@@ -74,6 +74,9 @@ class ExtController:
             command = int(line, 16)
             command_bytes = command.to_bytes(4, 'big')
             self.send_data(command_bytes)
+
+    def send_command(self, opcode, immidiate):
+        pass
 
     def run(self):
         while True:
@@ -263,13 +266,11 @@ class ExtController:
                 informacao = self.read_data()
             elif option == 'exit':
                 break
-            self.read_data()
-            self.read_data()
         self.close()
 
 
 def main():
-    controller = ExtController('/dev/ttyUSB1', 115200, 1)
+    controller = ExtController('/dev/ttyACM0', 115200, 1)
     controller.run()
     return 0
 
