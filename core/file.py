@@ -6,11 +6,11 @@ def read_file(path: str) -> tuple[list[str], int]:
     if not os.path.isfile(path):
         FileNotFoundError(f"Erro: O arquivo '{path}' não foi encontrado.")
 
-    file = open(file)
+    file = open(path)
     data = []
 
     for line in file.readlines():
-        data.append(line)
+        data.append(int(line.replace("\n", ""), 16))
 
     return data, len(data)
 
