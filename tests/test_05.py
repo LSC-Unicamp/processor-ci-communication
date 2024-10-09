@@ -18,14 +18,14 @@ class TestTypeRBasic(unittest.TestCase):
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0xA)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0xA)
 
     def test_jal_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/041-jal.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0xF)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0xF)
 
 
 if __name__ == "__main__":

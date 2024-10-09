@@ -25,12 +25,22 @@ class ProcessorCIInterfaceShell(cmd.Cmd, ProcessorCIInterface):
         self.reset_core()
 
     def do_write_memory(self, arg):
-        address, value = arg.split()
-        self.write_memory(int(address, 16), int(value, 16))
+        arg = arg.split()
+        address, value = arg[0], arg[1]
+        second_memory = False
+        if len(arg) > 2:
+            second_memory = bool(int(arg[1]))
+
+        self.write_memory(int(address, 16), int(value, 16), second_memory)
 
     def do_read_memory(self, arg):
-        address = int(arg, 16)
-        self.print_data(self.read_memory(address))
+        arg = arg.strip()
+        second_memory = False
+        address = int(arg[0], 16)
+        if len(arg) > 1:
+            second_memory = bool(int(arg[1]))
+
+        self.print_data(self.read_memory(address, second_memory))
 
     def do_load_msb_accumulator(self, arg):
         self.load_msb_accumulator(int(arg, 16))

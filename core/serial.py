@@ -18,7 +18,6 @@ class ProcessorCIInterface:
         return self.serial.read(size)
 
     def print_data(self, data: bytes) -> None:
-        print("Bytes de x:")
         for byte in data:
             print(f"{byte:02x}", end="")
         print()
@@ -53,12 +52,20 @@ class ProcessorCIInterface:
     def reset_core(self) -> None:
         self.send_command(0x52, 0)
 
-    def write_memory(self, address: int, value: int) -> None:
-        self.send_command(0x57, address >> 2)
+    def write_memory(
+        self, address: int, value: int, second_memory: bool = False
+    ) -> None:
+        address = address >> 2
+        if second_memory:
+            address = address | 0x80000000
+        self.send_command(0x57, address)
         self.send_rawdata(value)
 
-    def read_memory(self, address: int) -> int:
-        self.send_command(0x4C, address >> 2)
+    def read_memory(self, address: int, second_memory: bool = False) -> int:
+        address = address >> 2
+        if second_memory:
+            address = address | 0x80000000
+        self.send_command(0x4C, address)
         return self.read_data()
 
     def load_msb_accumulator(self, value: int) -> None:

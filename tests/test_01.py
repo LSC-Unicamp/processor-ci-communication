@@ -18,70 +18,70 @@ class TestTypeRBasic(unittest.TestCase):
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_sub(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/002-sub.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_and(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/003-and.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 1)
+        self.assertEqual(int.from_bytes(retorno, "big"), 1)
 
     def test_or(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/004-or.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 7)
+        self.assertEqual(int.from_bytes(retorno, "big"), 7)
 
     def test_xor(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/005-xor.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 6)
+        self.assertEqual(int.from_bytes(retorno, "big"), 6)
 
     def test_slt(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/007-slt.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0)
 
     def test_sltu(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/008-sltu.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0)
 
     def test_sll(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/006-sll.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 8)
+        self.assertEqual(int.from_bytes(retorno, "big"), 8)
 
     def test_srl(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/009-srl.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 2)
+        self.assertEqual(int.from_bytes(retorno, "big"), 2)
 
     def test_sra(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/010-sra.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 2)
+        self.assertEqual(int.from_bytes(retorno, "big"), 2)
 
 
 if __name__ == "__main__":

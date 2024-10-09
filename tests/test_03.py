@@ -18,84 +18,84 @@ class TestTypeRBasic(unittest.TestCase):
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x11)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x11)
 
     def test_beq_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/029-beq.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_bne(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/038-bne.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x11)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x11)
 
     def test_bne_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/039-bne.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_blt(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/034-blt.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x11)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x11)
 
     def test_blt_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/035-blt.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_bge(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/030-bge.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x11)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x11)
 
     def test_bge_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/031-bge.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_bltu(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/036-bltu.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x11)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x11)
 
     def test_bltu_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/037-bltu.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
     def test_bgeu(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/032-bgeu.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x11)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x11)
 
     def test_bgeu_2(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/033-bgeu.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 10)
+        self.assertEqual(int.from_bytes(retorno, "big"), 10)
 
 
 if __name__ == "__main__":

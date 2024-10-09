@@ -18,14 +18,14 @@ class TestTypeRBasic(unittest.TestCase):
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x000DA004)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x000DA004)
 
     def test_lui(self):
         dados, size = read_file("/eda/processor-ci-tests/tests/memory/044-lui.hex")
         self.controller.write_from_accumulator(size, dados)
         self.controller.execute_until_stop()
         retorno = self.controller.read_memory(60)
-        self.assertEqual(int.from_bytes(retorno, 'big'), 0x0006D000)
+        self.assertEqual(int.from_bytes(retorno, "big"), 0x0006D000)
 
 
 if __name__ == "__main__":
