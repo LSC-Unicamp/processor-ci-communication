@@ -29,5 +29,5 @@ class TestTypeRBasic(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    with open("test-reports/results_type_j_basic.xml", "wb") as output:
+    with open("test-reports/results_type_j_basic.xml", "w") as output:
         unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output))

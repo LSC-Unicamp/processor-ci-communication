@@ -23,5 +23,5 @@ if __name__ == '__main__':
             report_file = f'test-reports/results_{test_case_name}_{timestamp}.xml'
 
             # Executar os testes e salvar os resultados em arquivos separados
-            with open(report_file, 'wb') as output:
+            with open(report_file, 'w') as output:
                 xmlrunner.XMLTestRunner(output=output).run(test_case)
