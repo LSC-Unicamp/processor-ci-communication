@@ -1,5 +1,6 @@
 import cmd
 from core.serial import ProcessorCIInterface
+from core.file import read_file
 
 
 class ProcessorCIInterfaceShell(cmd.Cmd, ProcessorCIInterface):
@@ -34,7 +35,7 @@ class ProcessorCIInterfaceShell(cmd.Cmd, ProcessorCIInterface):
         self.write_memory(int(address, 16), int(value, 16), second_memory)
 
     def do_read_memory(self, arg):
-        arg = arg.strip()
+        arg = arg.split()
         second_memory = False
         address = int(arg[0], 16)
         if len(arg) > 1:
@@ -103,6 +104,16 @@ class ProcessorCIInterfaceShell(cmd.Cmd, ProcessorCIInterface):
 
     def do_sync(self, _):
         self.print_data(self.sync())
+
+    def do_write_file_in_memory(self, arg):
+        arg = arg.split()
+
+        if len(arg) > 1:
+            self.add_to_accumulator(int(arg[1], 16))
+
+        data, size = read_file(arg[0])
+
+        self.write_from_accumulator(size, data)
 
     def do_help(self, arg):
         if arg:
